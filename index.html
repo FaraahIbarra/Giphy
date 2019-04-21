@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <title>The Office Gifs</title>
+</head>
+
+<body>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">The Office Gifs ✏️</h1>
+    </div>
+    <br>
+    <div id="buttons">
+      <button data-person="Michael Scott">
+        Michael Scott
+      </button>
+      <button data-person="Dwight Schrute">
+        Dwight Scrute
+      </button>
+      <button data-person="Pam Beesly">
+        Pam Beesly
+      </button>
+      <button data-person="Jim Halpert">
+        Jim Halpert
+      </button>
+    </div>
+
+    <div id="gifs-appear-here">
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+      $("button").on("click", function () {
+
+        var person = $(this).attr("data-person");
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+          person + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+          .then(function (response) {
+            var results = response.data;
+
+            for (var i = 0; i < results.length; i++) {
+              var gifDiv = $("<div>");
+
+              var rating = results[i].rating;
+
+              var p = $("<p>").text("Rating: " + rating);
+
+              var personImage = $("<img>");
+              personImage.attr("src", results[i].images.fixed_height.url);
+
+              gifDiv.prepend(p);
+              gifDiv.prepend(personImage);
+
+              //why won't images pause/play 
+              $(".gif").on("click", function () {
+
+                var state = $(this).attr('data-state');
+                if (state == 'still') {
+                  $(this).attr('data-state', 'animate');
+                  var newLink = $(this).attr('data-animate');
+                  $(this).attr('src', newLink);
+                }
+                if (state == 'animate') {
+                  $(this).attr('date-state', 'still');
+                  var newLink = $(this).attr('data-still');
+                  $(this).attr('src', newLink);
+                }
+              });
+
+              $("#gifs-appear-here").prepend(gifDiv);
+            }
+          });
+      });
+    </script>
+</body>
+
+</html>
