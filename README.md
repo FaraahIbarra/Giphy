@@ -12,7 +12,7 @@ jQuery,
 AJAX.
 
 ## Issue Found
-Once the gifs for a character populate, they will not pause/play once clicked on. 
+Once the gifs for a character populate, they will not pause/play when clicked on. 
 
 ## The Future
 User will be able to search their own characters and find gifs. 
